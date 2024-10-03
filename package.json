@@ -7,5 +7,11 @@
   },
   "author": "Johnrey Bacal",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.2"
+  }
 }
