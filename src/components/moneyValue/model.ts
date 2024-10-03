@@ -2,7 +2,10 @@ import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../../config/sequelize';
 import { Treasure } from '../treasure/model';
 
-export class MoneyValue extends Model { }
+export class MoneyValue extends Model {
+    declare treasure_id: number;
+    declare amount: number;
+}
 
 MoneyValue.init({
     treasure_id: {
