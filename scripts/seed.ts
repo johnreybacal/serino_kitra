@@ -2,62 +2,76 @@ import fs from "node:fs";
 import path from "node:path";
 import readXlsxFile from "read-excel-file/node";
 
-enum UserIndex {
-    null,
-    id,
-    name,
-    age,
-    password,
-    email
-}
-
-enum TreasureIndex {
-    null,
-    id,
-    name,
-    age,
-    password,
-    email
-}
-
-enum MoneyValueIndex {
-    null,
-    treasureId,
-    amount
-}
-
-async function read() {
+async function read(sheet: string) {
     const filePath = path.join(__dirname, "../data/Serino-Mini-Project-Data.xlsx");
     const file = fs.readFileSync(filePath);
-
-    const users = await readXlsxFile(file, {
-        sheet: "users"
+    const records = await readXlsxFile(file, {
+        sheet
     })
 
+    // Remove first two rows (empty row and header)
+    records.splice(0, 2);
 
-    for (const user of users) {
-        console.log(user)
+    return records
+}
+
+async function seedUsers() {
+    enum UserIndex {
+        null,
+        id,
+        name,
+        age,
+        password,
+        email
     }
 
-    const treasures = await readXlsxFile(file, {
-        sheet: "treasures"
-    })
+    const records = await read("users");
 
+    for (const record of records) {
+        console.log(record);
+    }
+}
 
-    for (const treasure of treasures) {
-        console.log(treasure)
+async function seedTreasures() {
+    enum TreasureIndex {
+        null,
+        id,
+        name,
+        age,
+        password,
+        email
     }
 
-    const moneyValues = await readXlsxFile(file, {
-        sheet: "treasures"
-    })
+    const records = await read("treasures");
 
-
-    for (const moneyValue of moneyValues) {
-        console.log(moneyValue)
+    for (const record of records) {
+        console.log(record);
     }
+}
+
+async function seedMoneyValues() {
+    enum MoneyValueIndex {
+        null,
+        treasureId,
+        amount
+    }
+
+    const records = await read("money_values");
+
+    for (const record of records) {
+        console.log(record);
+    }
+}
+
+async function seed() {
+    console.log("Seeding users");
+    await seedUsers();
+    console.log("Seeding treasures");
+    await seedTreasures();
+    console.log("Seeding money values");
+    await seedMoneyValues();
 
     process.exit(0)
 }
 
-read();
+seed()
