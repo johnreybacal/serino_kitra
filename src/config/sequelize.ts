@@ -7,7 +7,6 @@ export const sequelize = new Sequelize(
     {
         dialect: process.env.DB_ENGINE! as Dialect,
         host: process.env.DB_HOST!,
-        port: process.env.DB_PORT! as unknown as number,
-        logging: false,
+        port: process.env.DB_PORT! as unknown as number
     }
 );

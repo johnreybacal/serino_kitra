@@ -1,6 +1,11 @@
+import { hashSync } from "bcrypt";
 import fs from "node:fs";
 import path from "node:path";
 import readXlsxFile from "read-excel-file/node";
+import { MoneyValue } from "../src/components/moneyValue/model";
+import { Treasure } from "../src/components/treasure/model";
+import { User } from "../src/components/user/model";
+import { sequelize } from "../src/config/sequelize";
 
 async function read(sheet: string) {
     const filePath = path.join(__dirname, "../data/Serino-Mini-Project-Data.xlsx");
@@ -27,26 +32,42 @@ async function seedUsers() {
 
     const records = await read("users");
 
+    const users = []
     for (const record of records) {
-        console.log(record);
+        users.push({
+            id: Number(record[UserIndex.id]),
+            name: String(record[UserIndex.name]),
+            age: Number(record[UserIndex.age]),
+            email: String(record[UserIndex.email]),
+            password: hashSync(String(record[UserIndex.password]), 10)
+        })
     }
+
+    await User.bulkCreate(users);
 }
 
 async function seedTreasures() {
     enum TreasureIndex {
         null,
         id,
-        name,
-        age,
-        password,
-        email
+        latitude,
+        longitude,
+        name
     }
 
     const records = await read("treasures");
 
+    const treasures = []
     for (const record of records) {
-        console.log(record);
+        treasures.push({
+            id: Number(record[TreasureIndex.id]),
+            latitude: Number(record[TreasureIndex.latitude]),
+            longitude: Number(record[TreasureIndex.longitude]),
+            name: String(record[TreasureIndex.name]),
+        })
     }
+
+    await Treasure.bulkCreate(treasures);
 }
 
 async function seedMoneyValues() {
@@ -58,16 +79,32 @@ async function seedMoneyValues() {
 
     const records = await read("money_values");
 
+    const moneyValues = []
     for (const record of records) {
-        console.log(record);
+        moneyValues.push({
+            treasure_id: Number(record[MoneyValueIndex.treasureId]),
+            amount: Number(record[MoneyValueIndex.amount])
+        })
     }
+
+    await MoneyValue.bulkCreate(moneyValues);
 }
 
 async function seed() {
+    console.log("Connecting to database");
+    await sequelize.authenticate();
+
+    console.log("Synchronizing ORM");
+    User.sync()
+    Treasure.sync()
+    MoneyValue.sync()
+
     console.log("Seeding users");
     await seedUsers();
+
     console.log("Seeding treasures");
     await seedTreasures();
+
     console.log("Seeding money values");
     await seedMoneyValues();
 
