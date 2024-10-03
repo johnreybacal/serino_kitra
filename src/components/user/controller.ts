@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { userService } from "./service";
 
 class Controller {
-    login = async (req: Request, res: Response, next: NextFunction) => {
+    login = async (req: Request, res: Response) => {
         const email = req.body.email as string
         const password = req.body.password as string
 
