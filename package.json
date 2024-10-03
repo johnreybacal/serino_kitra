@@ -11,6 +11,7 @@
   "dependencies": {
     "express": "^4.21.0",
     "mysql2": "^3.11.3",
+    "read-excel-file": "^5.8.6",
     "sequelize": "^6.37.3"
   },
   "devDependencies": {
