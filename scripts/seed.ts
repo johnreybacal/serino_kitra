@@ -5,6 +5,7 @@ import readXlsxFile from "read-excel-file/node";
 import { MoneyValue } from "../src/components/moneyValue/model";
 import { Treasure } from "../src/components/treasure/model";
 import { User } from "../src/components/user/model";
+import { SALT } from "../src/config/meta";
 import { sequelize } from "../src/config/sequelize";
 
 async function read(sheet: string) {
@@ -39,7 +40,7 @@ async function seedUsers() {
             name: String(record[UserIndex.name]),
             age: Number(record[UserIndex.age]),
             email: String(record[UserIndex.email]),
-            password: hashSync(String(record[UserIndex.password]), 10)
+            password: hashSync(String(record[UserIndex.password]), SALT)
         })
     }
 
