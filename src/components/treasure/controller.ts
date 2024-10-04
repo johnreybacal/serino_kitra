@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { moneyValueService } from "../moneyValue/serice";
 import { treasureService } from "./service";
 import { findSchema } from "./validator";
 
@@ -9,7 +10,33 @@ class Controller {
 
             const treasures = await treasureService.find(latitude, longitude, distance)
 
-            res.send(treasures)
+            console.log(treasures.length)
+            const rewards = []
+            let prizeTotal = 0;
+            for await (const treasure of treasures) {
+                console.log(treasure.id)
+                const moneyValues = await moneyValueService.list(treasure.id)
+                console.log(moneyValues)
+                const index = Math.floor(Math.random() * moneyValues.length);
+
+                prizeTotal += moneyValues[index].amount
+                rewards.push({
+                    treasure: treasure.name,
+                    prize: moneyValues[index].amount
+                })
+            }
+
+            if (treasures.length > 0) {
+                res.send({
+                    message: `You found ${treasures.length} treasures and won ${prizeTotal}!`,
+                    rewards
+                })
+            } else {
+                res.send({
+                    message: `No treasures within ${distance} KM. Try again.`,
+                })
+            }
+
         } catch (err) {
             next(err);
         }
