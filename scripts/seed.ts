@@ -34,7 +34,7 @@ async function seedUsers() {
 
     const records = await read("users");
 
-    const users = []
+    const users: Partial<User>[] = []
     for (const record of records) {
         users.push({
             id: Number(record[UserIndex.id]),
@@ -59,7 +59,7 @@ async function seedTreasures() {
 
     const records = await read("treasures");
 
-    const treasures = []
+    const treasures: Partial<Treasure>[] = []
     for (const record of records) {
         treasures.push({
             id: Number(record[TreasureIndex.id]),
@@ -81,7 +81,7 @@ async function seedMoneyValues() {
 
     const records = await read("money_values");
 
-    const moneyValues = []
+    const moneyValues: Partial<MoneyValue>[] = []
     for (const record of records) {
         moneyValues.push({
             treasure_id: Number(record[MoneyValueIndex.treasureId]),
