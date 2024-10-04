@@ -10,12 +10,14 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
     const token = req.header('Authorization');
 
     if (!token) {
-        return res.status(401).json({ error: 'Unauthorized' });
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
     }
 
     jwt.verify(token.split(' ')[1], JWT_SECRET, (err, payload) => {
         if (err) {
-            return res.status(403).json({ error: 'Forbidden' });
+            res.status(403).json({ error: 'Forbidden' });
+            return;
         }
 
         Object.assign(req, {

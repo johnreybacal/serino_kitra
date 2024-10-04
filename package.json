@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "npx tsx --env-file=.env --watch index.ts",
+    "dev": "npx tsx --env-file=.env index.ts",
     "seed": "npx tsx --env-file=.env scripts/seed.ts"
   },
   "author": "Johnrey Bacal",
@@ -16,7 +16,8 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.3",
     "read-excel-file": "^5.8.6",
-    "sequelize": "^6.37.3"
+    "sequelize": "^6.37.3",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
