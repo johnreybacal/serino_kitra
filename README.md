@@ -71,3 +71,9 @@ docker run --name serino_kitra -dp 127.0.0.1:8080:8080 --env-file .env johnreyba
 - `npm run dev`: start development server
 - `npm run build`: compiles project to js
 - `npm run serve`: start server
+
+## Cool features to add (but I'm too lazy to)
+
+- User's treasures found history (just the controller and route and it's done)
+- Hot / Cold enpoint: tells the user if they are getting closer or farther from treasure
+- Host a compute engine instance with mysql and make the docker image connect to it by default
