@@ -2,6 +2,7 @@ import { hashSync } from "bcrypt";
 import fs from "node:fs";
 import path from "node:path";
 import readXlsxFile from "read-excel-file/node";
+import { History } from "../src/components/history/model";
 import { MoneyValue } from "../src/components/moneyValue/model";
 import { Treasure } from "../src/components/treasure/model";
 import { User } from "../src/components/user/model";
@@ -99,6 +100,7 @@ async function seed() {
     User.sync()
     Treasure.sync()
     MoneyValue.sync()
+    History.sync()
 
     console.log("Seeding users");
     await seedUsers();
