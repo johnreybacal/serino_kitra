@@ -6,16 +6,27 @@ import { findSchema } from "./validator";
 class Controller {
     find = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const { latitude, longitude, distance } = findSchema.validateSync(req.query, { abortEarly: false });
+            const { latitude, longitude, distance, prizeValue } = findSchema.validateSync(req.query, { abortEarly: false });
 
             const treasures = await treasureService.find(latitude, longitude, distance)
 
             const rewards = []
             let prizeTotal = 0;
             for await (const treasure of treasures) {
-                const moneyValues = await moneyValueService.list(treasure.id)
+                const moneyValues = await moneyValueService.list(treasure.id, prizeValue)
 
-                const index = Math.floor(Math.random() * moneyValues.length);
+                if (moneyValues.length === 0) {
+                    rewards.push({
+                        treasure: treasure.name,
+                        message: "Sadly, this treasure does not meet the prizeValue criteria"
+                    })
+                    continue;
+                }
+
+                // Get minimum if prizeValue is truthy
+                const index = prizeValue
+                    ? 0
+                    : Math.floor(Math.random() * moneyValues.length);
 
                 prizeTotal += moneyValues[index].amount
                 rewards.push({

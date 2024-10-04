@@ -11,4 +11,10 @@ export const findSchema = object().shape({
     latitude: number().required().test(isLatitude),
     longitude: number().required().test(isLongitude),
     distance: number().required().test(isValidDistance),
+    prizeValue: number().optional().test((value) => {
+        if (value) {
+            return isValidPrizeValue(value)
+        }
+        return true;
+    })
 }).noUnknown(true)
