@@ -10,21 +10,21 @@
 
 1. Clone this repo
 
-```
-git clone https://github.com/johnreybacal/serino_kitra.git
-```
+   ```
+   git clone https://github.com/johnreybacal/serino_kitra.git
+   ```
 
 2. Change directory (duh)
 
-```
-cd serino_kitra
-```
+   ```
+   cd serino_kitra
+   ```
 
 3. Install dependencies
 
-```
-npm i
-```
+   ```
+   npm i
+   ```
 
 4. Setup environment variables. Duplicate `.env.example` and rename to `.env`. Set the following variables to connect to your database instance
 
@@ -37,17 +37,19 @@ npm i
 
 5. Seed the database (this will also synchronize the models defined in this app)
 
-```
-npm run seed
-```
+   ```
+   npm run seed
+   ```
 
 6. Start the development server locally
 
-```
-npm run dev
-```
+   ```
+   npm run dev
+   ```
 
 ## It works on my machine? well, that's why we have Docker!
+
+0. Make sure you have docker
 
 1. Make sure the database is seeded and `.env` is ready
 
@@ -55,15 +57,46 @@ npm run dev
 
 2. Pull
 
-```
-docker pull johnreybacal/serino_kitra:latest
-```
+   ```
+   docker pull johnreybacal/serino_kitra:latest
+   ```
 
 3. Run
 
-```
-docker run --name serino_kitra -dp 127.0.0.1:8080:8080 --env-file .env johnreybacal/serino_kitra:latest
-```
+   ```
+   docker run --name serino_kitra -dp 127.0.0.1:8080:8080 --env-file .env johnreybacal/serino_kitra:latest
+   ```
+
+## Testing the API
+
+For easier testing, please import the file: `serino_kitra.postman_collection.json` in postman. [Importing guide](https://learning.postman.com/docs/getting-started/importing-and-exporting/importing-and-exporting-overview/)
+
+There are 3 endpoints:
+
+1. Login - The server needs to know who's playing
+
+   - POST `<host>`/api/users/login
+   - Body (JSON):
+     ```
+     {
+         "email": <email>,
+         "password": <pasword>
+     }
+     ```
+
+2. Find treasure - The main feature of the game, find and collect treasures
+
+   - GET `<host>`/api/treasures/find
+   - Headers
+     - `Authorization`: `Bearer <token from login>`
+   - Query parameteres
+     - `latitude`: Latitude of user (Required)
+     - `longitude`: Longitude of user (Required)
+     - `distance`: Search distance of user (Required)
+     - `prizeValue`: Minimum prize the user is looking for (Optional)
+
+3. Leaderboards - What's a game without a bit of competition?
+   - GET `<host>`/api/leaderboards
 
 ## Scripts
 
