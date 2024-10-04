@@ -10,13 +10,11 @@ class Controller {
 
             const treasures = await treasureService.find(latitude, longitude, distance)
 
-            console.log(treasures.length)
             const rewards = []
             let prizeTotal = 0;
             for await (const treasure of treasures) {
-                console.log(treasure.id)
                 const moneyValues = await moneyValueService.list(treasure.id)
-                console.log(moneyValues)
+
                 const index = Math.floor(Math.random() * moneyValues.length);
 
                 prizeTotal += moneyValues[index].amount
