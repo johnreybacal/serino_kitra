@@ -14,7 +14,7 @@
    git clone https://github.com/johnreybacal/serino_kitra.git
    ```
 
-2. Change directory (duh)
+2. Change directory
 
    ```
    cd serino_kitra
