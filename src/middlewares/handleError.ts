@@ -9,5 +9,6 @@ export function handleError(err: Error, req: Request, res: Response, next: NextF
     if (err instanceof ValidationError) {
         res.status(400).json(err.errors)
     }
-    next(err)
+    console.error(err);
+    res.status(500).send("Internal server error")
 }
